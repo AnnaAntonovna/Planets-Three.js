@@ -25,7 +25,11 @@ import {
     TextureLoader,
     LoadingManager,
     AmbientLight,
-    HemisphereLight
+    SpotLight,
+    HemisphereLight,
+    SphereGeometry,
+    AxesHelper,
+    GridHelper
 } from 'three';
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
@@ -54,6 +58,16 @@ const scene = new Scene();
 const canvas = document.getElementById('three-canvas');
 const loader = new TextureLoader();
 
+const axes = new AxesHelper();
+axes.material.depthTest = false;
+axes.renderOrder = 2;
+//scene.add(axes);
+
+const grid = new GridHelper(6, 6);
+grid.material.depthTest = false;
+grid.renderOrder = 0;
+scene.add(grid);
+
 // 2 The object
 const loadingManager = new LoadingManager();
 const loadingElem = document.querySelector('#loading');
@@ -70,6 +84,10 @@ const geometry = new BoxGeometry(0.5, 0.5, 0.5);
 const orangeMaterial = new MeshToonMaterial({color: 'orange' });
 //const orangeMaterial = new MeshToonMaterial({color: 0xff0000 });
 const blueMaterial = new MeshLambertMaterial({color: 'blue'});
+const whiteMaterial = new MeshLambertMaterial({color: 'white'})
+
+
+
 //const blueMaterial = new MeshLambertMaterial({color: new Color(0.04, 0.43, 0.6)});
 const fancyMaterial = new MeshPhongMaterial({
     color: 0xff0000 ,
@@ -98,30 +116,47 @@ const materials = [
 	new MeshBasicMaterial({ map: textureLoader.load(images[5]) }),
 ];
 
+
+
+const sphereGeometry = new SphereGeometry(0.5);
+const sun = new Mesh(sphereGeometry, orangeMaterial);
+
+const earth = new Mesh(sphereGeometry, blueMaterial); 
+earth.scale.set(0.2, 0.2, 0.2);
+earth.position.x += 2;
+
+const moon = new Mesh(sphereGeometry, whiteMaterial);
+moon.scale.set(0.2, 0.2, 0.2);
+moon.position.x += 1;
+
 loadingManager.onLoad = () => {
 	loadingElem.style.display = 'none';
-	const cube = new Mesh(geometry, materials);
-    cube.position.y += 2;
-	scene.add(cube);
+	//const cube = new Mesh(geometry, materials);
+    //cube.position.y += 2;
+	//scene.add(cube);
+    
+    scene.add(sun);
+    sun.add(earth);
+    earth.add(moon);
 
-    const orangeCube = new Mesh(geometry, orangeMaterial);
-    scene.add(orangeCube);
+    //const orangeCube = new Mesh(geometry, orangeMaterial);
+    //scene.add(orangeCube);
 
-    const bigBlueCube = new Mesh(geometry, blueMaterial);
-    bigBlueCube.position.x += 2;
-    bigBlueCube.scale.set(2, 2, 2);
-    scene.add(bigBlueCube); 
+    //const bigBlueCube = new Mesh(geometry, blueMaterial);
+    //bigBlueCube.position.x += 2;
+    //bigBlueCube.scale.set(2, 2, 2);
+    //scene.add(bigBlueCube); 
 
-    const fancyCube = new Mesh(geometry, fancyMaterial);
-    fancyCube.position.x -= 2;
-    fancyCube.scale.set(-2, -2, -2);
-    scene.add(fancyCube); 
+    //const fancyCube = new Mesh(geometry, fancyMaterial);
+    //fancyCube.position.x -= 2;
+    //fancyCube.scale.set(-2, -2, -2);
+    //scene.add(fancyCube); 
 
 
-    const revitCube = new Mesh(geometry, picMaterial);
-    revitCube.position.x -= 5;
-    revitCube.scale.set(-3, -3, -3);
-    scene.add(revitCube); 
+    //const revitCube = new Mesh(geometry, picMaterial);
+    //revitCube.position.x -= 5;
+    //revitCube.scale.set(-3, -3, -3);
+    //scene.add(revitCube); 
 }
 
 
@@ -133,8 +168,11 @@ const sizes = {
     height: 600
 }
 
-const camera = new PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight);
-camera.position.z = 3;
+const camera = new PerspectiveCamera(30, canvas.clientWidth / canvas.clientHeight);
+camera.position.z = 2;
+camera.position.x = 2;
+camera.position.y = 5;
+camera.lookAt(sun);
 scene.add(camera);
 
 //window.addEventListener('mousemove', (event) => {
@@ -210,6 +248,10 @@ function animate() {
     //bigBlueCube.rotation.z -= 0.02;
 
     //controls.update();
+
+    sun.rotation.y += 0.002
+
+    earth.rotation.y += 0.02
 
     const delta = clock.getDelta();
     cameraControls.update(delta);
