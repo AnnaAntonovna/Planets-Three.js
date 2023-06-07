@@ -34,6 +34,7 @@ import {
 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import CameraControls from 'camera-controls';
+import GUI from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 const subsetOfTHREE = {
     MOUSE,
@@ -83,7 +84,7 @@ const geometry = new BoxGeometry(0.5, 0.5, 0.5);
 //const orangeMaterial = new MeshBasicMaterial({color: 'orange'});
 const orangeMaterial = new MeshToonMaterial({color: 'orange' });
 //const orangeMaterial = new MeshToonMaterial({color: 0xff0000 });
-const blueMaterial = new MeshLambertMaterial({color: 'blue'});
+const blueMaterial = new MeshToonMaterial({color: 0x1a36a8});
 const whiteMaterial = new MeshLambertMaterial({color: 'white'})
 
 
@@ -273,3 +274,51 @@ function getMousePosition(event){
 
   return position;
 }
+
+// 10 Debugging
+
+const gui = new GUI();
+
+//const transformationFolder = gui.addFolder('Transformation Folder');
+//const visabilityFolder = gui.addFolder('Visability Folder');
+
+const min = 1;
+const max = 3;
+const step = 0.01;
+
+//transformationFolder.add(earth.position, 'x', min, max, step).name('Position X');
+//transformationFolder.add(earth.position, 'y', min, max, step).name('Position Y');
+//transformationFolder.add(earth.position, 'z', min, max, step).name('Position Z');
+
+//transformationFolder.close();
+
+//visabilityFolder.add(moon, 'visible').name('Moon visibility');
+
+//visabilityFolder.close();
+
+const sunColorParam = {
+    value: 0xeb9824,
+}
+
+gui.addColor(sunColorParam, 'value').name('Sun Color').onChange(() => {
+    sun.material.color.set(sunColorParam.value);
+});
+
+const earthColorParam = {
+    value: 0x1a36a8,
+}
+
+gui.addColor(earthColorParam, 'value').name('Earth Color').onChange(() => {
+    earth.material.color.set(earthColorParam.value);
+});
+
+
+const  moonColorParam = {
+    value: 0xffffff,
+}
+
+gui.addColor(moonColorParam, 'value').name('Moon Color').onChange(() => {
+    moon.material.color.set(moonColorParam.value);
+});
+
+gui.close();
