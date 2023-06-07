@@ -332,7 +332,7 @@ gui.onProgress
 
 const functionEarthParam = {
     spin: () => {
-        gsap.to(sun.rotation, {y: sun.rotation.y + 14, duration: 2})
+        gsap.to(sun.rotation, {y: sun.rotation.y + 7, duration: 2})
     }
 }
 
