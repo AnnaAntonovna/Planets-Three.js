@@ -32,9 +32,11 @@ import {
     GridHelper
 } from 'three';
 
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+//import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import CameraControls from 'camera-controls';
 import GUI from 'three/examples/jsm/libs/lil-gui.module.min.js';
+import gsap from 'gsap';
+
 
 const subsetOfTHREE = {
     MOUSE,
@@ -139,6 +141,7 @@ loadingManager.onLoad = () => {
     scene.add(sun);
     sun.add(earth);
     earth.add(moon);
+
 
     //const orangeCube = new Mesh(geometry, orangeMaterial);
     //scene.add(orangeCube);
@@ -322,3 +325,23 @@ gui.addColor(moonColorParam, 'value').name('Moon Color').onChange(() => {
 });
 
 gui.close();
+
+gui.onProgress
+
+// Button
+
+const functionEarthParam = {
+    spin: () => {
+        gsap.to(sun.rotation, {y: sun.rotation.y + 14, duration: 2})
+    }
+}
+
+gui.add(functionEarthParam, 'spin').name('Spin the Earth!');
+
+const functionMoonParam = {
+    spin: () => {
+        gsap.to(earth.rotation, {y: earth.rotation.y + 12, duration: 2})
+    }
+}
+
+gui.add(functionMoonParam, 'spin').name('Spin the Moon!');
