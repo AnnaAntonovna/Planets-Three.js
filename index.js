@@ -161,6 +161,75 @@ loadingManager.onLoad = () => {
     //revitCube.position.x -= 5;
     //revitCube.scale.set(-3, -3, -3);
     //scene.add(revitCube); 
+
+
+    // 10 Debugging
+
+    const gui = new GUI();
+
+    //const transformationFolder = gui.addFolder('Transformation Folder');
+    //const visabilityFolder = gui.addFolder('Visability Folder');
+
+    const min = 1;
+    const max = 3;
+    const step = 0.01;
+
+    //transformationFolder.add(earth.position, 'x', min, max, step).name('Position X');
+    //transformationFolder.add(earth.position, 'y', min, max, step).name('Position Y');
+    //transformationFolder.add(earth.position, 'z', min, max, step).name('Position Z');
+
+    //transformationFolder.close();
+
+    //visabilityFolder.add(moon, 'visible').name('Moon visibility');
+
+    //visabilityFolder.close();
+
+    const sunColorParam = {
+        value: 0xeb9824,
+    }
+
+    gui.addColor(sunColorParam, 'value').name('Sun Color').onChange(() => {
+        sun.material.color.set(sunColorParam.value);
+    });
+
+    const earthColorParam = {
+        value: 0x1a36a8,
+    }
+
+    gui.addColor(earthColorParam, 'value').name('Earth Color').onChange(() => {
+        earth.material.color.set(earthColorParam.value);
+    });
+
+
+    const  moonColorParam = {
+        value: 0xffffff,
+    }
+
+    gui.addColor(moonColorParam, 'value').name('Moon Color').onChange(() => {
+        moon.material.color.set(moonColorParam.value);
+    });
+
+    gui.close();
+
+    gui.onProgress
+
+    // Button
+
+    const functionEarthParam = {
+        spin: () => {
+            gsap.to(sun.rotation, {y: sun.rotation.y + 7, duration: 2})
+        }
+    }
+
+    gui.add(functionEarthParam, 'spin').name('Spin the Earth!');
+
+    const functionMoonParam = {
+        spin: () => {
+            gsap.to(earth.rotation, {y: earth.rotation.y + 12, duration: 2})
+        }
+    }
+
+    gui.add(functionMoonParam, 'spin').name('Spin the Moon!');
 }
 
 
@@ -278,70 +347,3 @@ function getMousePosition(event){
   return position;
 }
 
-// 10 Debugging
-
-const gui = new GUI();
-
-//const transformationFolder = gui.addFolder('Transformation Folder');
-//const visabilityFolder = gui.addFolder('Visability Folder');
-
-const min = 1;
-const max = 3;
-const step = 0.01;
-
-//transformationFolder.add(earth.position, 'x', min, max, step).name('Position X');
-//transformationFolder.add(earth.position, 'y', min, max, step).name('Position Y');
-//transformationFolder.add(earth.position, 'z', min, max, step).name('Position Z');
-
-//transformationFolder.close();
-
-//visabilityFolder.add(moon, 'visible').name('Moon visibility');
-
-//visabilityFolder.close();
-
-const sunColorParam = {
-    value: 0xeb9824,
-}
-
-gui.addColor(sunColorParam, 'value').name('Sun Color').onChange(() => {
-    sun.material.color.set(sunColorParam.value);
-});
-
-const earthColorParam = {
-    value: 0x1a36a8,
-}
-
-gui.addColor(earthColorParam, 'value').name('Earth Color').onChange(() => {
-    earth.material.color.set(earthColorParam.value);
-});
-
-
-const  moonColorParam = {
-    value: 0xffffff,
-}
-
-gui.addColor(moonColorParam, 'value').name('Moon Color').onChange(() => {
-    moon.material.color.set(moonColorParam.value);
-});
-
-gui.close();
-
-gui.onProgress
-
-// Button
-
-const functionEarthParam = {
-    spin: () => {
-        gsap.to(sun.rotation, {y: sun.rotation.y + 7, duration: 2})
-    }
-}
-
-gui.add(functionEarthParam, 'spin').name('Spin the Earth!');
-
-const functionMoonParam = {
-    spin: () => {
-        gsap.to(earth.rotation, {y: earth.rotation.y + 12, duration: 2})
-    }
-}
-
-gui.add(functionMoonParam, 'spin').name('Spin the Moon!');
