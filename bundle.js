@@ -34398,10 +34398,6 @@ const spotLight = new SpotLight(color, intensity, 3, 10 );
 scene.add(spotLight);
 scene.add(spotLight.target);
 
-const colorSun = 'orange';
-new SpotLight(colorSun, intensity, 3, 10 );
-earth.add(spotLight);
-earth.add(spotLight.target);
 
 
 // 6 Responsitivity 
